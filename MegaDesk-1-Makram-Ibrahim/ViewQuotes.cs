@@ -1,13 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MegaDesk_4_Makram_Ibrahim
@@ -24,19 +18,18 @@ namespace MegaDesk_4_Makram_Ibrahim
                 string QuoteFile = @"quotes.json";
                 using (StreamReader sr = new StreamReader(QuoteFile))
                 {
-                    string json = sr.ReadToEnd();
-                    List<DeskQuote> deskView = JsonConvert.DeserializeObject<List<DeskQuote>>(json);
+                    string[] line = File.ReadAllLines(QuoteFile);
 
-                    dynamic array = JsonConvert.DeserializeObject(json);
-
-                    foreach(var arr in array)
+                    foreach(var i in line)
                     {
-                        ViewQuotesBox.Items.Add(arr);
+                        ViewQuotesBox.Items.Add(i);
                     }
 
+                    sr.Close();
                 }
 
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "Error reading the file");

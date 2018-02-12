@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MegaDesk_4_Makram_Ibrahim
@@ -17,9 +13,12 @@ namespace MegaDesk_4_Makram_Ibrahim
         public SearchQuotes()
         {
             InitializeComponent();
-            List<SurfaceMaterials> ListOfMaterial = Enum.GetValues(typeof(SurfaceMaterials))
+            List<SurfaceMaterials> MaterialNameList = Enum.GetValues(typeof(SurfaceMaterials))
                 .Cast<SurfaceMaterials>().ToList();
-            SearchBox.DataSource = ListOfMaterial;
+            SearchBox.DataSource = MaterialNameList;
+
+
+
         }
 
         private void CancelSearchBtn_Click(object sender, MouseEventArgs e)
@@ -35,33 +34,28 @@ namespace MegaDesk_4_Makram_Ibrahim
             SurfaceMaterials MaterialName;
             string searchInput = SearchBox.SelectedItem.ToString();
             Enum.TryParse(searchInput, out MaterialName);
-            DeskQuote deskQuote = new DeskQuote();
-
-            List<DeskQuote> searchDiskQuote = new List<DeskQuote>();
 
             try
             {
                 string QuoteFile = @"quotes.json";
                 using (StreamReader sr = new StreamReader(QuoteFile))
                 {
-                    string line = sr.ReadToEnd();
-                    searchDiskQuote = JsonConvert.DeserializeObject<List<DeskQuote>>(line);
-                }
+                    string[] line = File.ReadAllLines(QuoteFile);
 
-                foreach (DeskQuote deskQuotee in searchDiskQuote)
-                {
-                    string materialNames = deskQuotee.desk.surfMaterials.ToString();
-                    if (materialNames.Contains(MaterialName.ToString()))
+                    foreach (var i in line)
                     {
-                        searchOutput.Items.Add(searchDiskQuote);
+                        searchOutput.Items.Add(i); ;
                     }
-                }
 
+                    sr.Close();
+                }
             }
+
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "Error, can't read the file");
+                MessageBox.Show(ex.Message + "Error reading the file");
             }
+
         }
     }
 }
