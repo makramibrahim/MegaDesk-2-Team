@@ -18,18 +18,24 @@ namespace MegaDesk_4_Makram_Ibrahim
         {
             InitializeComponent();
 
-            string line;
+            //string line;
             try
             {
                 string QuoteFile = @"quotes.json";
-                StreamReader sr = new StreamReader(QuoteFile);
-
-                while ((line = sr.ReadLine()) != null)
+                using (StreamReader sr = new StreamReader(QuoteFile))
                 {
-                    DeskQuote json = JsonConvert.DeserializeObject<DeskQuote>(line);
-                    ViewQuotesBox.Items.Add(json.ClientName);
+                    string json = sr.ReadToEnd();
+                    List<DeskQuote> deskView = JsonConvert.DeserializeObject<List<DeskQuote>>(json);
+
+                    dynamic array = JsonConvert.DeserializeObject(json);
+
+                    foreach(var arr in array)
+                    {
+                        ViewQuotesBox.Items.Add(arr);
+                    }
+
                 }
-                sr.Close();
+
             }
             catch (Exception ex)
             {

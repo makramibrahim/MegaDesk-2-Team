@@ -240,6 +240,7 @@ namespace MegaDesk_4_Makram_Ibrahim
                         RushOrderDays = RUSH_DAYS3;
                         break;
                 }
+
             }
             catch (Exception ex)
             {
@@ -253,7 +254,8 @@ namespace MegaDesk_4_Makram_Ibrahim
         private void WriteFile()
         {
             deskQuote = new DeskQuote(ClientName, DateTime.Now, DeskWidth, DeskDepth,
-                                        Drawers, surfMaterials, RushOrderDays);
+                                            Drawers, surfMaterials, RushOrderDays, DeskQuotePrice);
+
             DeskQuotePrice = deskQuote.CalQuoteTotal();
             DeskQuotePrice = Math.Round(DeskQuotePrice, 2);
             try

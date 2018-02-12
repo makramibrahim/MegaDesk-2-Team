@@ -35,19 +35,25 @@ namespace MegaDesk_4_Makram_Ibrahim
             SurfaceMaterials MaterialName;
             string searchInput = SearchBox.SelectedItem.ToString();
             Enum.TryParse(searchInput, out MaterialName);
+            DeskQuote deskQuote = new DeskQuote();
+
+            List<DeskQuote> searchDiskQuote = new List<DeskQuote>();
 
             try
             {
                 string QuoteFile = @"quotes.json";
-                StreamReader sr = new StreamReader(QuoteFile);
-                string line;
-
-                while ((line = sr.ReadLine()) != null)
+                using (StreamReader sr = new StreamReader(QuoteFile))
                 {
-                    DeskQuote json = JsonConvert.DeserializeObject<DeskQuote>(line);
-                    if (line.Contains(MaterialName.ToString()))
+                    string line = sr.ReadToEnd();
+                    searchDiskQuote = JsonConvert.DeserializeObject<List<DeskQuote>>(line);
+                }
+
+                foreach (DeskQuote deskQuotee in searchDiskQuote)
+                {
+                    string materialNames = deskQuotee.desk.surfMaterials.ToString();
+                    if (materialNames.Contains(MaterialName.ToString()))
                     {
-                        searchOutput.Items.Add(json);
+                        searchOutput.Items.Add(searchDiskQuote);
                     }
                 }
 

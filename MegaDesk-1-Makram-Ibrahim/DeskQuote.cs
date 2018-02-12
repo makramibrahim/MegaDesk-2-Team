@@ -37,7 +37,7 @@ namespace MegaDesk_4_Makram_Ibrahim
         * Overloaded Constructor
         * ***************************/
         public DeskQuote( string name, DateTime quoteDate, decimal width, decimal depth,
-                          int drawers, SurfaceMaterials material, int rushDays)
+                          int drawers, SurfaceMaterials material, int rushDays, decimal priceQuote)
         {
             ClientName = name;
             QuoteDate = quoteDate;
@@ -46,6 +46,7 @@ namespace MegaDesk_4_Makram_Ibrahim
             desk.surfMaterials = material;
             desk.NumOfDrawers = drawers;
             RushDays = rushDays;
+            QuotePrice = priceQuote;
 
             Surface = desk.Width * desk.Depth;
         }
@@ -61,7 +62,7 @@ namespace MegaDesk_4_Makram_Ibrahim
        * **********************************/
         public decimal CalQuoteTotal()
         {
-            return BASE_PRICE + SurfaceArea() + DrawerCost() + (int)desk.surfMaterials + RushOrderCost();
+            return QuotePrice = BASE_PRICE + SurfaceArea() + DrawerCost() + (int)desk.surfMaterials + RushOrderCost();
         }
 
         private decimal SurfaceArea()
